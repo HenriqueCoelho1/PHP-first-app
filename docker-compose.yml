@@ -1,7 +1,7 @@
 version: '3.0'
 services:
   web:
-    container_name: web_php
+    container_name: form_pro_web_php
     build: .
     ports:
       - '2000:80'
@@ -10,7 +10,7 @@ services:
     links:
       - db
   db:
-    container_name: db
+    container_name: form_pro_db
     image: mariadb
     ports:
       - '3306:3306'
