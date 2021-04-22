@@ -4,34 +4,57 @@ $EmailError = "";
 $GenderError = "";
 $WebsiteError = "";
 if(isset($_POST["Submit"])){
-    $NameIsEmpty = empty($_POST["Email"]);
+    $NameIsEmpty = empty($_POST["Name"]);
     $EmailIsEmpty = empty($_POST["Email"]);
     $GenderIsEmpty = empty($_POST["Gender"]);
     $WebsiteIsEmpty = empty($_POST["Website"]);
 
+    $NameRegex = "/^[A-Za-z. ]*$/";
+    $EmailRegex = "/[a-zA-Z0-9._-]{3,}@[a-zA-Z0-9._-]{3,}[.]{1}[a-zA-Z0.9._-]{2}/";
+    $WebsiteRegex = "/(https:|ftp:)\/\/+[a-zA-Z0-9.\-_\/?\$=&\#\~`!]+\.[a-zA-Z0-9.\-_\/?\$=&\#\~`!]*/";
+
+    
+    // $NameIsEmpty ? $NameError = "Name is Required" : $Name = Test_User_Input($_POST["Name"])
+    // && !preg_match($NameRegex, $Name = Test_User_Input($_POST["Name"])) 
+    // ? $NameError = "Only Letters and White Space are allowed" : "";
+    // $EmailIsEmpty ? $EmailError = "Email is Required" : $Email = Test_User_Input($_POST["Email"])
+    // && !preg_match($EmailRegex, $Email = Test_User_Input($_POST["Email"])) 
+    // ? $EmailError = "Is not a valid email" : "";
+
     if($NameIsEmpty){
         $NameError = "Name is Required";
     }else{
-        $Name = Test_User_Input(["Name"]);
+        $Name = Test_User_Input($_POST["Name"]);
+        if(!preg_match($NameRegex, $Name)){
+            $NameError = "Only Letters And White Space";
+            
+        }
     }
 
     if($EmailIsEmpty){
-        $EmailError = "Email is Required";
+        $EmailError = "Name is Required";
     }else{
-        $Email = Test_User_Input(["Email"]);
-    }
-
-    if($GenderIsEmpty){
-        $GenderError = "Gender is Required";
-    }else{
-        $Gender = Test_User_Input(["Gender"]);
+        $Email = Test_User_Input($_POST["Email"]);
+        if(!preg_match($EmailRegex, $Email)){
+            $EmailError = "Is not a valid email";
+            
+        }
     }
 
     if($WebsiteIsEmpty){
-        $WebsiteError = "Website is Required";
+        $WebsiteError = "Name is Required";
     }else{
-        $Website = Test_User_Input(["Website"]);
+        $Website = Test_User_Input($_POST["Website"]);
+        if(!preg_match($WebsiteRegex, $Website)){
+            $WebsiteError = "Is not a valid Website";
+            
+        }
     }
+
+    $EmailIsEmpty ? $EmailError = "Name is Required" : $Email = Test_User_Input(["Email"]); 
+    $GenderIsEmpty ? $GenderError = "Gender is Required" : $Gender = Test_User_Input(["Gender"]); 
+    $WebsiteIsEmpty ? $WebsiteError = "Website is Required" : $Website = Test_User_Input(["Website"]); 
+
     
 }
 
