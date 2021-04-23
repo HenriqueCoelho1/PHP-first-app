@@ -4,6 +4,10 @@ $EmailError = "";
 $GenderError = "";
 $WebsiteError = "";
 if(isset($_POST["Submit"])){
+    function test_user_input($Data){
+        return $Data;
+    
+    }
     $NameIsEmpty = empty($_POST["Name"]);
     $EmailIsEmpty = empty($_POST["Email"]);
     $GenderIsEmpty = empty($_POST["Gender"]);
@@ -14,26 +18,28 @@ if(isset($_POST["Submit"])){
     $WebsiteRegex = "/(https:|ftp:)\/\/+[a-zA-Z0-9.\-_\/?\$=&\#\~`!]+\.[a-zA-Z0-9.\-_\/?\$=&\#\~`!]*/";
 
     
-    // $NameIsEmpty ? $NameError = "Name is Required" : $Name = Test_User_Input($_POST["Name"])
-    // && !preg_match($NameRegex, $Name = Test_User_Input($_POST["Name"])) 
+    // $NameIsEmpty ? $NameError = "Name is Required" : $Name = test_user_input($_POST["Name"])
+    // && !preg_match($NameRegex, $Name = test_user_input($_POST["Name"])) 
     // ? $NameError = "Only Letters and White Space are allowed" : "";
-    // $EmailIsEmpty ? $EmailError = "Email is Required" : $Email = Test_User_Input($_POST["Email"])
-    // && !preg_match($EmailRegex, $Email = Test_User_Input($_POST["Email"])) 
+    // $EmailIsEmpty ? $EmailError = "Email is Required" : $Email = test_user_input($_POST["Email"])
+    // && !preg_match($EmailRegex, $Email = test_user_input($_POST["Email"])) 
     // ? $EmailError = "Is not a valid email" : "";
 
-    function validatorRegex($EmailRegex, $Email){
-        if(preg_match($EmailRegex, $Email)){
-            return true;
-        }
+    // function validatorRegex($EmailRegex, $Email){
+    //     if(preg_match($EmailRegex, $Email)){
+    //         return true;
+    //     }
         
-    }
-    
+    // }
 
+    
+    
     if($NameIsEmpty){
         $NameError = "Name is Required";
     }else{
-        $Name = Test_User_Input($_POST["Name"]);
-        if(validatorRegex($NameRegex, $Name) == false){
+        $Name = test_user_input($_POST["Name"]);
+        $NameSuccess = preg_match($NameRegex, $Name);
+        if($NameSuccess == false){
             $NameError = "Only letters and white space are permitted";
 
         }
@@ -42,28 +48,30 @@ if(isset($_POST["Submit"])){
     if($EmailIsEmpty){
         $EmailError = "Name is Required";
     }else{
-        $Email = Test_User_Input($_POST["Email"]);
-        if(validatorRegex($EmailRegex, $Email) == false){
+        $Email = test_user_input($_POST["Email"]);
+        $EmailSuccess = preg_match($EmailRegex, $Email);
+        if($EmailSuccess == false){
             $EmailError = "Is not a valid email";
-
         }
         
+    }
+    if($GenderIsEmpty){
+        $GenderError = "Gender is Required";
     }
 
     if($WebsiteIsEmpty){
         $WebsiteError = "Name is Required";
     }else{
-        $Website = Test_User_Input($_POST["Website"]);
-        if(validatorRegex($WebsiteRegex, $Website) == false){
+        $Website = test_user_input($_POST["Website"]);
+        $WebsiteSuccess = preg_match($WebsiteRegex, $Website);
+        if($WebsiteSuccess == false){
             $WebsiteError = "Is not a valid Website";
 
         }
     }
 
     if(!$NameIsEmpty && !$EmailIsEmpty && !$WebsiteIsEmpty && !$GenderIsEmpty){
-        if(validatorRegex($NameRegex, $Name) == true 
-        && validatorRegex($EmailRegex, $Email) == true
-        && validatorRegex($WebsiteRegex, $Website) == true){
+        if($NameSuccess && $EmailSuccess && $WebsiteSuccess){
             echo "<h2>Your Submit Information: </h2> <br />";
             echo "Name:  {$_POST["Name"]} <br />";
             echo "Email:  {$_POST["Email"]} <br />";
@@ -71,15 +79,14 @@ if(isset($_POST["Submit"])){
             echo "Website:  {$_POST["Website"]} <br />";
             echo "Comments:  {$_POST["Comment"]} <br />";
 
+        }else{
+            echo "Please complete the form again!";
         }
     }
     
 }
 
-function Test_User_Input($Data){
-    return $Data;
 
-}
 ?>
 
 <!DOCTYPE html>
