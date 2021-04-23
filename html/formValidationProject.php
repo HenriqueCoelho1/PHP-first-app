@@ -21,13 +21,21 @@ if(isset($_POST["Submit"])){
     // && !preg_match($EmailRegex, $Email = Test_User_Input($_POST["Email"])) 
     // ? $EmailError = "Is not a valid email" : "";
 
+    function validatorRegex($EmailRegex, $Email){
+        if(preg_match($EmailRegex, $Email)){
+            return true;
+        }
+        
+    }
+    
+
     if($NameIsEmpty){
         $NameError = "Name is Required";
     }else{
         $Name = Test_User_Input($_POST["Name"]);
-        if(!preg_match($NameRegex, $Name)){
-            $NameError = "Only Letters And White Space";
-            
+        if(validatorRegex($NameRegex, $Name) == false){
+            $NameError = "Only letters and white space are permitted";
+
         }
     }
 
@@ -35,26 +43,36 @@ if(isset($_POST["Submit"])){
         $EmailError = "Name is Required";
     }else{
         $Email = Test_User_Input($_POST["Email"]);
-        if(!preg_match($EmailRegex, $Email)){
+        if(validatorRegex($EmailRegex, $Email) == false){
             $EmailError = "Is not a valid email";
-            
+
         }
+        
     }
 
     if($WebsiteIsEmpty){
         $WebsiteError = "Name is Required";
     }else{
         $Website = Test_User_Input($_POST["Website"]);
-        if(!preg_match($WebsiteRegex, $Website)){
+        if(validatorRegex($WebsiteRegex, $Website) == false){
             $WebsiteError = "Is not a valid Website";
-            
+
         }
     }
 
-    $EmailIsEmpty ? $EmailError = "Name is Required" : $Email = Test_User_Input(["Email"]); 
-    $GenderIsEmpty ? $GenderError = "Gender is Required" : $Gender = Test_User_Input(["Gender"]); 
-    $WebsiteIsEmpty ? $WebsiteError = "Website is Required" : $Website = Test_User_Input(["Website"]); 
+    if(!$NameIsEmpty && !$EmailIsEmpty && !$WebsiteIsEmpty && !$GenderIsEmpty){
+        if(validatorRegex($NameRegex, $Name) == true 
+        && validatorRegex($EmailRegex, $Email) == true
+        && validatorRegex($WebsiteRegex, $Website) == true){
+            echo "<h2>Your Submit Information: </h2> <br />";
+            echo "Name:  {$_POST["Name"]} <br />";
+            echo "Email:  {$_POST["Email"]} <br />";
+            echo "Gender:  {$_POST["Gender"]} <br />";
+            echo "Website:  {$_POST["Website"]} <br />";
+            echo "Comments:  {$_POST["Comment"]} <br />";
 
+        }
+    }
     
 }
 
