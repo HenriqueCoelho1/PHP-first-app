@@ -1,23 +1,24 @@
 <?php
-$NameError = "";
-$EmailError = "";
-$GenderError = "";
-$WebsiteError = "";
-if(isset($_POST["Submit"])){
-    function test_user_input($Data){
+// $NameError = "";
+// $EmailError = "";
+// $GenderError = "";
+// $WebsiteError = "";
+if (isset($_POST["Submit"])) {
+    function test_user_input($Data)
+    {
         return $Data;
-    
     }
-    $NameIsEmpty = empty($_POST["Name"]);
-    $EmailIsEmpty = empty($_POST["Email"]);
-    $GenderIsEmpty = empty($_POST["Gender"]);
-    $WebsiteIsEmpty = empty($_POST["Website"]);
-
+    $values = [
+        'Name' => [$_POST['Name'], $NameRegex],
+        'Email' => [$_POST['Email'], $EmailRegex],
+        'Gender' => [$_POST['Gender']],
+        'Website' => [$_POST['Website'], $websiteRegex],
+    ];
     $NameRegex = "/^[A-Za-z. ]*$/";
     $EmailRegex = "/[a-zA-Z0-9._-]{3,}@[a-zA-Z0-9._-]{3,}[.]{1}[a-zA-Z0.9._-]{2}/";
     $WebsiteRegex = "/(https:|ftp:)\/\/+[a-zA-Z0-9.\-_\/?\$=&\#\~`!]+\.[a-zA-Z0-9.\-_\/?\$=&\#\~`!]*/";
 
-    
+
     // $NameIsEmpty ? $NameError = "Name is Required" : $Name = test_user_input($_POST["Name"])
     // && !preg_match($NameRegex, $Name = test_user_input($_POST["Name"])) 
     // ? $NameError = "Only Letters and White Space are allowed" : "";
@@ -29,61 +30,35 @@ if(isset($_POST["Submit"])){
     //     if(preg_match($EmailRegex, $Email)){
     //         return true;
     //     }
-        
+
     // }
-
-    
-    
-    if($NameIsEmpty){
-        $NameError = "Name is Required";
-    }else{
-        $Name = test_user_input($_POST["Name"]);
-        $NameSuccess = preg_match($NameRegex, $Name);
-        if($NameSuccess == false){
-            $NameError = "Only letters and white space are permitted";
-
+    $error;
+    foreach ($values as $key => $value) {
+        if (empty($value[0])) {
+            $error .= "$key is required";
+        } elseif (isset($value[1]) && empty($value[0])) {
+            $key = test_user_input($value);
+            $success = preg_match($value[1], $key);
+            if ($success === false) {
+                $error .= "Please enter a valid $key";
+            }
         }
     }
-
-    if($EmailIsEmpty){
-        $EmailError = "Name is Required";
-    }else{
-        $Email = test_user_input($_POST["Email"]);
-        $EmailSuccess = preg_match($EmailRegex, $Email);
-        if($EmailSuccess == false){
-            $EmailError = "Is not a valid email";
-        }
-        
+    if (empty($error)) {
+        $name = ucwords($_POST["Name"]);
+        $email = $_POST['Email'];
+        $website = $_POST['Website'];
+        $comment = $_POST['Comment'];
+        echo "
+            <h2>Your Submit Information: </h2> <br />
+            Name:  $name <br />
+            Email: $email <br />
+            Gender: $gender <br />
+            Website: $website <br />
+            Comments: $comment <br />
+        ";
     }
-    if($GenderIsEmpty){
-        $GenderError = "Gender is Required";
-    }
-
-    if($WebsiteIsEmpty){
-        $WebsiteError = "Name is Required";
-    }else{
-        $Website = test_user_input($_POST["Website"]);
-        $WebsiteSuccess = preg_match($WebsiteRegex, $Website);
-        if($WebsiteSuccess == false){
-            $WebsiteError = "Is not a valid Website";
-
-        }
-    }
-
-    if(!$NameIsEmpty && !$EmailIsEmpty && !$WebsiteIsEmpty && !$GenderIsEmpty){
-        if($NameSuccess && $EmailSuccess && $WebsiteSuccess){
-            echo "<h2>Your Submit Information: </h2> <br />";
-            echo "Name: ". ucwords($_POST["Name"]) . "<br />";
-            echo "Email:  {$_POST["Email"]} <br />";
-            echo "Gender:  {$_POST["Gender"]} <br />";
-            echo "Website:  {$_POST["Website"]} <br />";
-            echo "Comments:  {$_POST["Comment"]} <br />";
-
-        }else{
-            echo "Please complete the form again!";
-        }
-    }
-    
+    echo (isset($error)) ? "<span class=\"Error\">$error</span>" : '';
 }
 
 
@@ -91,6 +66,7 @@ if(isset($_POST["Submit"])){
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -98,17 +74,18 @@ if(isset($_POST["Submit"])){
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
     <title>Document</title>
 </head>
+
 <body>
 
     <h2>Form Validation with PHP.</h2>
 
-    <form  action="formValidationProject.php" method="post"> 
-        <legend>* Please Fill Out the following Fields.</legend>			
+    <!-- This section returns an error -->
+    <form action="#" method="post">
+        <legend>* Please Fill Out the following Fields.</legend>
         <fieldset>
             Name:
             <br />
             <input class="input is-primary" type="text" placeholder="Your Name" Name="Name" value="">
-            <span class="Error">*<?php echo $NameError;  ?></span><br />	 
             E-mail:
             <br />
             <input class="input is-primary" type="text" placeholder="Your Email" Name="Email" value="">
@@ -118,12 +95,10 @@ if(isset($_POST["Submit"])){
             <br />
             <input class="radio" type="radio" Name="Gender" value="Female">Female
             <input class="radio" type="radio" Name="Gender" value="Male">Male
-            <span class="Error">*<?php echo $GenderError; ?></span>
-            <br />		   
+            <br />
             Website:
             <br />
             <input class="input" type="text" Name="Website" value="">
-            <span class="Error">*<?php echo $WebsiteError; ?></span>
             <br />
             Comment:
             <br />
@@ -132,7 +107,8 @@ if(isset($_POST["Submit"])){
             <br />
             <input type="Submit" Name="Submit" value="Submit Your Information">
         </fieldset>
-</form>
-    
+    </form>
+
 </body>
+
 </html>
