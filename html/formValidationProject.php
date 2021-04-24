@@ -73,7 +73,7 @@ if(isset($_POST["Submit"])){
     if(!$NameIsEmpty && !$EmailIsEmpty && !$WebsiteIsEmpty && !$GenderIsEmpty){
         if($NameSuccess && $EmailSuccess && $WebsiteSuccess){
             echo "<h2>Your Submit Information: </h2> <br />";
-            echo "Name:  {$_POST["Name"]} <br />";
+            echo "Name: ". ucwords($_POST["Name"]) . "<br />";
             echo "Email:  {$_POST["Email"]} <br />";
             echo "Gender:  {$_POST["Gender"]} <br />";
             echo "Website:  {$_POST["Website"]} <br />";
@@ -95,6 +95,7 @@ if(isset($_POST["Submit"])){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
     <title>Document</title>
 </head>
 <body>
@@ -106,12 +107,12 @@ if(isset($_POST["Submit"])){
         <fieldset>
             Name:
             <br />
-            <input class="input" type="text" Name="Name" value="">
+            <input class="input is-primary" type="text" placeholder="Your Name" Name="Name" value="">
             <span class="Error">*<?php echo $NameError;  ?></span><br />	 
             E-mail:
             <br />
-            <input class="input" type="text" Name="Email" value="">
-            <span class="Error">*<?php echo $EmailError; ?></span>
+            <input class="input is-primary" type="text" placeholder="Your Email" Name="Email" value="">
+            <span class="icon is-small is-danger">*<?php echo $EmailError; ?></span>
             <br />
             Gender:
             <br />
