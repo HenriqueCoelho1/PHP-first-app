@@ -105,10 +105,15 @@ if(isset($_POST["Submit"])){
     <form  action="formValidationProject.php" method="post"> 
         <legend>* Please Fill Out the following Fields.</legend>			
         <fieldset>
-            Name:
-            <br />
-            <input class="input is-primary" type="text" placeholder="Your Name" Name="Name" value="">
-            <span class="Error">*<?php echo $NameError;  ?></span><br />	 
+            <div>
+                <label class="label">Name: </label>
+                <div class="control">
+                    <input class="input is-primary" type="text" placeholder="Your Name" Name="Name" value="" />
+                    <?php
+                    " <span class='is-danger'>*" . echo $NameError . "</span>";
+                    ?>
+                </div>
+            </div>
             E-mail:
             <br />
             <input class="input is-primary" type="text" placeholder="Your Email" Name="Email" value="">
@@ -116,9 +121,15 @@ if(isset($_POST["Submit"])){
             <br />
             Gender:
             <br />
-            <input class="radio" type="radio" Name="Gender" value="Female">Female
-            <input class="radio" type="radio" Name="Gender" value="Male">Male
-            <span class="Error">*<?php echo $GenderError; ?></span>
+            <div class="field">
+                <div class="control">
+                    <label class="radio">
+                        <input type="radio" Name="Gender" value="Female">Female
+                        <input type="radio" Name="Gender" value="Male">Male
+                        <span class="Error">*<?php echo $GenderError; ?></span>
+                    </label>
+                </div>
+            </div>
             <br />		   
             Website:
             <br />
