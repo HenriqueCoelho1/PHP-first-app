@@ -3,6 +3,10 @@ $NameError = "";
 $EmailError = "";
 $GenderError = "";
 $WebsiteError = "";
+$errorInputName = false;
+$errorInputEmail = false;
+$errorInputGender = false;
+$errorInputWebsite = false;
 if(isset($_POST["Submit"])){
     function test_user_input($Data){
         return $Data;
@@ -41,6 +45,7 @@ if(isset($_POST["Submit"])){
         $NameSuccess = preg_match($NameRegex, $Name);
         if($NameSuccess == false){
             $NameError = "Only letters and white space are permitted";
+            $errorInputName = true;
 
         }
     }
@@ -52,15 +57,18 @@ if(isset($_POST["Submit"])){
         $EmailSuccess = preg_match($EmailRegex, $Email);
         if($EmailSuccess == false){
             $EmailError = "Is not a valid email";
+            $errorInputEmail = true;
         }
         
     }
     if($GenderIsEmpty){
         $GenderError = "Gender is Required";
+        $errorInputGender = true;
     }
 
     if($WebsiteIsEmpty){
         $WebsiteError = "Name is Required";
+        $errorInputWebsite = true;
     }else{
         $Website = test_user_input($_POST["Website"]);
         $WebsiteSuccess = preg_match($WebsiteRegex, $Website);
@@ -83,6 +91,17 @@ if(isset($_POST["Submit"])){
             echo "Please complete the form again!";
         }
     }
+
+    // function validationName(){
+    //     if($errorInputName == false){
+    //         echo "<input class='input is-primary' type='text' placeholder='Your Name' Name='Name' value='' />";
+
+    //     }else{
+    //         echo "<input class='input is-danger' type='text' placeholder='{$NameError}' Name='Name' value='' />";
+    //         $errorInputName == false;
+
+    //     }
+    // }
     
 }
 
@@ -100,41 +119,89 @@ if(isset($_POST["Submit"])){
 </head>
 <body>
 
-    <h2>Form Validation with PHP.</h2>
+    <div class="has-text-centered">
+        <h1 class="title is-1 center">Form Validation with PHP</h1>
+    </div>
 
-    <form  action="formValidationProject.php" method="post"> 
-        <legend>* Please Fill Out the following Fields.</legend>			
-        <fieldset>
-            <div>
-                <label class="label">Name: </label>
+    <form action="formValidationProject.php" method="post"> 
+        <p class="has-text-left is-italic has-text-info">Please Fill Out the following Fields</p>			
+            <div class="field is-horizontal p-2">
+                
+                <label class="field-label">Name: </label>
+                
                 <div class="control">
-                    <input class="input is-primary" type="text" placeholder="Your Name" Name="Name" value="" />
-                    <?php
-                    " <span class='is-danger'>*" . echo $NameError . "</span>";
-                    ?>
+                <?php
+                    if($errorInputName == false){
+                        echo "<input class='input is-primary' type='text' placeholder='Your Name' Name='Name' value='' />";
+
+                    }else{
+                        echo "<input class='input is-danger' type='text' placeholder='Your Name' value=''>";
+                        echo "</div> <p class='help is-danger'>{$NameError}</p> </div>";
+                        $errorInputName == false;
+
+                    }
+                ?>
                 </div>
             </div>
-            E-mail:
-            <br />
-            <input class="input is-primary" type="text" placeholder="Your Email" Name="Email" value="">
-            <span class="icon is-small is-danger">*<?php echo $EmailError; ?></span>
-            <br />
-            Gender:
-            <br />
-            <div class="field">
+            <div class="field p-2">
+                <label class="label"> Email: </label>
                 <div class="control">
-                    <label class="radio">
-                        <input type="radio" Name="Gender" value="Female">Female
-                        <input type="radio" Name="Gender" value="Male">Male
-                        <span class="Error">*<?php echo $GenderError; ?></span>
-                    </label>
+                <?php
+                if($errorInputEmail == false){
+                    echo "<input class='input is-primary' type='email' placeholder='Your Email' Name='Email' value='' />";
+
+                }else{
+                    echo "<input class='input is-danger' type='email' placeholder='Email input' value=''>";
+                    echo "</div> <p class='help is-danger'>{$EmailError}</p> </div>";
+                    $errorInputEmail == false;
+
+                }
+
+                ?>
+                </div>
+            </div>
+
+            <div class="field p-2">
+                <div class="control">
+                <h5 class="title is-5"> Gender: </h5>
+                <?php
+                if($errorInputGender == false){
+                    echo "<label class='radio is-primary'>
+                    <input type='radio' Name='Gender' value='Female' />Female
+                    <input type='radio' Name='Gender' value='Male' />Male
+                    </label>";
+
+                }else{
+                    echo "<label class='radio is-danger'>
+                    <input type='radio' Name='Gender' value='Female' />Female
+                    <input type='radio' Name='Gender' value='Male' />Male
+                    </label>";
+                    echo "</div> <p class='help is-danger'>{$GenderError}</p> </div>";
+                    $errorInputGender == false;
+
+                }
+
+                ?>
                 </div>
             </div>
             <br />		   
-            Website:
-            <br />
-            <input class="input" type="text" Name="Website" value="">
-            <span class="Error">*<?php echo $WebsiteError; ?></span>
+            <div class="field p-2">
+                <label class="label"> Website: </label>
+                <div class="control">
+                <?php
+                if($errorInputWebsite == false){
+                    echo "<input class='input is-primary' type='text' placeholder='Your Website' Name='Website' value='' />";
+
+                }else{
+                    echo "<input class='input is-danger' type='text' placeholder='Your Website' value=''>";
+                    echo "</div> <p class='help is-danger'>{$EmailGender}</p> </div>";
+                    $errorInputGender == false;
+
+                }
+
+                ?>
+                </div>
+            </div>
             <br />
             Comment:
             <br />
@@ -142,7 +209,7 @@ if(isset($_POST["Submit"])){
             <br />
             <br />
             <input type="Submit" Name="Submit" value="Submit Your Information">
-        </fieldset>
+        
 </form>
     
 </body>
