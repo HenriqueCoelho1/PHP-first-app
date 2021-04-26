@@ -123,94 +123,102 @@ if(isset($_POST["Submit"])){
         <h1 class="title is-1 center">Form Validation with PHP</h1>
     </div>
 
-    <form action="formValidationProject.php" method="post"> 
-        <p class="has-text-left is-italic has-text-info">Please Fill Out the following Fields</p>			
-            <div class="field is-horizontal p-2">
-                
-                <label class="field-label">Name: </label>
-                
-                <div class="control">
-                <?php
-                    if($errorInputName == false){
-                        echo "<input class='input is-primary' type='text' placeholder='Your Name' Name='Name' value='' />";
+    <div class="container">
+        <div class="columns is-centered">
+            <form action="formValidationProject.php" method="post"> 
+                <p class="has-text-left is-italic has-text-info">Please Fill Out the following Fields</p>
+                    
+                    <div class="field p-2">    
+                        <label class="label">Name: </label>
+                        
+                        <div class="control">
+                        <?php
+                            if($errorInputName == false){
+                                echo "<input class='input is-primary' type='text' placeholder='Your Name' Name='Name' value='' />";
 
-                    }else{
-                        echo "<input class='input is-danger' type='text' placeholder='Your Name' value=''>";
-                        echo "</div> <p class='help is-danger'>{$NameError}</p> </div>";
-                        $errorInputName == false;
+                            }else{
+                                echo "<input class='input is-danger' type='text' placeholder='Your Name' value=''>";
+                                echo "</div> <p class='help is-danger'>{$NameError}</p> </div>";
+                                $errorInputName == false;
 
-                    }
-                ?>
-                </div>
-            </div>
-            <div class="field p-2">
-                <label class="label"> Email: </label>
-                <div class="control">
-                <?php
-                if($errorInputEmail == false){
-                    echo "<input class='input is-primary' type='email' placeholder='Your Email' Name='Email' value='' />";
+                            }
+                        ?>
+                        </div>
+                    </div>
+                    
+                    <div class="field p-1">
+                        <label class="label"> Email: </label>
+                        <div class="control">
+                        <?php
+                        if($errorInputEmail == false){
+                            echo "<input class='input is-primary' type='email' placeholder='Your Email' Name='Email' value='' />";
 
-                }else{
-                    echo "<input class='input is-danger' type='email' placeholder='Email input' value=''>";
-                    echo "</div> <p class='help is-danger'>{$EmailError}</p> </div>";
-                    $errorInputEmail == false;
+                        }else{
+                            echo "<input class='input is-danger' type='email' placeholder='Email input' value=''>";
+                            echo "</div> <p class='help is-danger'>{$EmailError}</p> </div>";
+                            $errorInputEmail == false;
 
-                }
+                        }
 
-                ?>
-                </div>
-            </div>
+                        ?>
+                        </div>
+                    </div>
 
-            <div class="field p-2">
-                <div class="control">
-                <h5 class="title is-5"> Gender: </h5>
-                <?php
-                if($errorInputGender == false){
-                    echo "<label class='radio is-primary'>
-                    <input type='radio' Name='Gender' value='Female' />Female
-                    <input type='radio' Name='Gender' value='Male' />Male
-                    </label>";
+                    <div class="field p-1">
+                        <div class="control">
+                        <h5 class="title is-5"> Gender: </h5>
+                        <?php
+                        if($errorInputGender == false){
+                            echo "<label class='radio is-primary'>
+                            <input type='radio' Name='Gender' value='Female' />Female
+                            <input type='radio' Name='Gender' value='Male' />Male
+                            </label>";
 
-                }else{
-                    echo "<label class='radio is-danger'>
-                    <input type='radio' Name='Gender' value='Female' />Female
-                    <input type='radio' Name='Gender' value='Male' />Male
-                    </label>";
-                    echo "</div> <p class='help is-danger'>{$GenderError}</p> </div>";
-                    $errorInputGender == false;
+                        }else{
+                            echo "<label class='radio is-danger'>
+                            <input type='radio' Name='Gender' value='Female' />Female
+                            <input type='radio' Name='Gender' value='Male' />Male
+                            </label>";
+                            echo "</div> <p class='help is-danger'>{$GenderError}</p> </div>";
+                            $errorInputGender == false;
 
-                }
+                        }
 
-                ?>
-                </div>
-            </div>
-            <br />		   
-            <div class="field p-2">
-                <label class="label"> Website: </label>
-                <div class="control">
-                <?php
-                if($errorInputWebsite == false){
-                    echo "<input class='input is-primary' type='text' placeholder='Your Website' Name='Website' value='' />";
+                        ?>
+                        </div>
+                    </div>
+                    <div class="field p-1">
+                        <label class="label"> Website: </label>
+                        <div class="control">
+                        <?php
+                        if($errorInputWebsite == false){
+                            echo "<input class='input is-primary' type='text' placeholder='Your Website' Name='Website' value='' />";
 
-                }else{
-                    echo "<input class='input is-danger' type='text' placeholder='Your Website' value=''>";
-                    echo "</div> <p class='help is-danger'>{$EmailGender}</p> </div>";
-                    $errorInputGender == false;
+                        }else{
+                            echo "<input class='input is-danger' type='text' placeholder='Your Website' value=''>";
+                            echo "</div> <p class='help is-danger'>{$EmailGender}</p> </div>";
+                            $errorInputGender == false;
 
-                }
+                        }
 
-                ?>
-                </div>
-            </div>
-            <br />
-            Comment:
-            <br />
-            <textarea Name="Comment" rows="5" cols="25"></textarea>
-            <br />
-            <br />
-            <input type="Submit" Name="Submit" value="Submit Your Information">
-        
-</form>
+                        ?>
+                        </div>
+                    </div>
+                    <div class="field p-1">
+                        <label class="label">Comment:</label>
+                        <div class="control">
+                            <textarea class="textarea" Name="Comment" placeholder="Textarea"></textarea>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-primary" Name="Submit" value="">Submit</button>
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
     
 </body>
 </html>
